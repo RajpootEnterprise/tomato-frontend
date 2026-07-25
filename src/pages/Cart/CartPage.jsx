@@ -9,7 +9,7 @@ import StripePaymentForm from '../../components/StripePaymentForm/StripePaymentF
 import toast from 'react-hot-toast';
 import './CartPage.css';
 
-const stripePromise = loadStripe('pk_test_51PqOsgRxVlY5mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51PqOsgRxVlY5mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By');
 
 export default function CartPage({ onLoginRequired }) {
   const { isLoggedIn } = useAuth();
