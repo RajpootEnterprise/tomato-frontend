@@ -1,0 +1,98 @@
+.orders-page {
+  padding: 60px 0 80px;
+  min-height: calc(100vh - 70px);
+}
+.orders-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+.orders-loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
+}
+.orders-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  padding: 80px 0;
+}
+.orders-empty h2 { font-size: 1.6rem; font-weight: 700; }
+.orders-empty p { color: var(--text-muted); }
+.empty-icon { font-size: 4rem; }
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition);
+}
+.order-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.order-id {
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Courier New', monospace;
+  color: var(--text);
+}
+.order-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.order-status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.order-items {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+.order-item-name { flex: 1; color: var(--text); }
+.order-item-qty { color: var(--text-muted); font-weight: 500; }
+.order-item-price { font-weight: 700; color: var(--primary); min-width: 64px; text-align: right; }
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(255,107,53,0.04);
+  border-top: 1px solid var(--border);
+}
+.order-total-label { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+.order-total-value { font-size: 1.2rem; font-weight: 800; color: var(--primary); }

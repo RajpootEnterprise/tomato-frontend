@@ -1,0 +1,10 @@
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-wrapper > main,
+.app-wrapper > div:not(.navbar):not(.footer) {
+  flex: 1;
+}

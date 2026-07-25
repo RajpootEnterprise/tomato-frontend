@@ -1,0 +1,208 @@
+.cart-page {
+  padding: 60px 0 80px;
+  min-height: calc(100vh - 70px);
+}
+.cart-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+.cart-loading {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+/* Empty / login */
+.cart-empty, .cart-empty-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  padding: 80px 0;
+}
+.cart-empty h2, .cart-empty-login h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.cart-empty p, .cart-empty-login p { color: var(--text-muted); }
+.empty-icon { font-size: 4rem; }
+
+/* Layout */
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Cart items */
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+.cart-item:hover { box-shadow: var(--shadow-md); }
+
+.cart-item-info { flex: 1; }
+.cart-item-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.cart-item-price { font-size: 0.85rem; color: var(--text-muted); }
+
+.cart-item-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Stepper (reused from FoodCard CSS, but here in page context) */
+.stepper {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.stepper-btn {
+  width: 34px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.stepper-btn:hover { background: var(--primary); color: #fff; }
+.stepper-qty {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cart-item-subtotal {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  min-width: 64px;
+  text-align: right;
+}
+
+.remove-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,59,59,0.08);
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.remove-btn:hover { background: var(--secondary); color: #fff; }
+
+/* Summary card */
+.cart-summary-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 90px;
+}
+.summary-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+.summary-divider { height: 1px; background: var(--border); margin: 12px 0; }
+.summary-total {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.total-amount { color: var(--primary); font-size: 1.1rem; }
+.summary-delivery { color: var(--text-muted); margin-top: 6px; }
+.free-tag {
+  background: rgba(76,175,80,0.1);
+  color: #2e7d32;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.place-order-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+.place-order-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
+
+.continue-shopping {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+.continue-shopping:hover { color: var(--primary); }
+
+.spinner-sm {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .cart-layout { grid-template-columns: 1fr; }
+  .cart-summary-card { position: static; }
+}
+@media (max-width: 600px) {
+  .cart-item { flex-direction: column; align-items: flex-start; }
+  .cart-item-right { width: 100%; justify-content: space-between; }
+}
