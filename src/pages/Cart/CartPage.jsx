@@ -98,7 +98,7 @@ export default function CartPage({ onLoginRequired }) {
         )}
 
         {!loading && cartItems.length > 0 && (
-          <div className="cart-layout">
+          <div className="cart-layout animate-slide-up">
             {/* Items list */}
             <div className="cart-items">
               {cartItems.map((item) => (

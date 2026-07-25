@@ -123,11 +123,12 @@ export default function HomePage({ onLoginRequired }) {
           {/* Dish grid */}
           {!loading && !error && items.length > 0 && (
             <div className="dishes-grid">
-              {items.map((item) => (
+              {items.map((item, index) => (
                 <FoodCard
                   key={item.id}
                   item={item}
                   onLoginRequired={onLoginRequired}
+                  index={index}
                 />
               ))}
             </div>

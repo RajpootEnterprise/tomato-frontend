@@ -82,7 +82,7 @@ export default function OrdersPage({ onLoginRequired }) {
         )}
 
         {!loading && !error && orders.length > 0 && (
-          <div className="orders-list">
+          <div className="orders-list animate-slide-up">
             {orders.map((order) => {
               const style = STATUS_COLORS[order.status] ?? STATUS_COLORS.PLACED;
               return (

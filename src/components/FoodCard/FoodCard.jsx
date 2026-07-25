@@ -17,7 +17,7 @@ function StarRating({ rating = 0 }) {
   );
 }
 
-export default function FoodCard({ item, onLoginRequired }) {
+export default function FoodCard({ item, onLoginRequired, index = 0 }) {
   const { isLoggedIn } = useAuth();
   const { addItem, updateItem, getItemInCart } = useCart();
   const [adding, setAdding] = useState(false);
@@ -61,7 +61,10 @@ export default function FoodCard({ item, onLoginRequired }) {
   };
 
   return (
-    <article className="food-card">
+    <article 
+      className="food-card animate-slide-up"
+      style={{ animationDelay: `${(index % 12) * 0.06}s` }}
+    >
       {/* Image */}
       <div className="food-card-img-wrap">
         <img
@@ -76,41 +79,41 @@ export default function FoodCard({ item, onLoginRequired }) {
         />
         {/* Category tag */}
         <span className="food-tag">{item.category}</span>
+      </div>
 
-        {/* Add/Stepper button */}
-        <div className="food-add-wrap">
-          {cartItem ? (
-            <div className="stepper">
-              <button
-                className="stepper-btn"
-                onClick={handleDecrement}
-                aria-label="Decrease quantity"
-                id={`decrement-${item.id}`}
-              >
-                −
-              </button>
-              <span className="stepper-qty">{cartItem.quantity}</span>
-              <button
-                className="stepper-btn"
-                onClick={handleIncrement}
-                aria-label="Increase quantity"
-                id={`increment-${item.id}`}
-              >
-                +
-              </button>
-            </div>
-          ) : (
+      {/* Add/Stepper button */}
+      <div className="food-add-wrap">
+        {cartItem ? (
+          <div className="stepper">
             <button
-              className="add-btn"
-              onClick={handleAdd}
-              disabled={adding}
-              aria-label={`Add ${item.name} to cart`}
-              id={`add-to-cart-${item.id}`}
+              className="stepper-btn"
+              onClick={handleDecrement}
+              aria-label="Decrease quantity"
+              id={`decrement-${item.id}`}
             >
-              {adding ? <span className="spinner-sm" style={{ borderColor: 'rgba(255,107,53,0.3)', borderTopColor: 'var(--primary)' }} /> : '+'}
+              −
             </button>
-          )}
-        </div>
+            <span className="stepper-qty">{cartItem.quantity}</span>
+            <button
+              className="stepper-btn"
+              onClick={handleIncrement}
+              aria-label="Increase quantity"
+              id={`increment-${item.id}`}
+            >
+              +
+            </button>
+          </div>
+        ) : (
+          <button
+            className="add-btn"
+            onClick={handleAdd}
+            disabled={adding}
+            aria-label={`Add ${item.name} to cart`}
+            id={`add-to-cart-${item.id}`}
+          >
+            {adding ? <span className="spinner-sm" style={{ borderColor: 'rgba(255,107,53,0.3)', borderTopColor: 'var(--primary)' }} /> : '+'}
+          </button>
+        )}
       </div>
 
       {/* Body */}

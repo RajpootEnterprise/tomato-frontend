@@ -130,8 +130,8 @@ export default function MenuPage({ onLoginRequired }) {
 
           {!loading && !error && filtered.length > 0 && (
             <div className="dishes-grid">
-              {filtered.map((item) => (
-                <FoodCard key={item.id} item={item} onLoginRequired={onLoginRequired} />
+              {filtered.map((item, index) => (
+                <FoodCard key={item.id} item={item} onLoginRequired={onLoginRequired} index={index} />
               ))}
             </div>
           )}

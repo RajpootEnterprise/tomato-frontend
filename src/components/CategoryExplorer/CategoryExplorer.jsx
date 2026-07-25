@@ -15,8 +15,10 @@ export default function CategoryExplorer({ selected, onSelect }) {
   return (
     <section className="category-section" aria-label="Browse by category">
       <div className="container">
-        <h2 className="section-title">Explore Our Menu</h2>
-        <p className="category-subtitle">Pick your favourite category and discover top dishes</p>
+        <div className="category-header">
+          <h2 className="section-title">Explore Our Menu</h2>
+          <p className="category-subtitle">Pick your favourite category and discover top dishes</p>
+        </div>
         <div className="category-scroll">
           {CATEGORIES.map((cat) => (
             <button
