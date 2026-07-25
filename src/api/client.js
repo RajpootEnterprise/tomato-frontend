@@ -21,6 +21,13 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('tomato_token');
+      localStorage.removeItem('tomato_user');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('tomato_logout'));
+      }
+    }
     return Promise.reject(error);
   }
 );

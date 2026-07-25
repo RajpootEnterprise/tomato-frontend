@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -23,6 +23,14 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('tomato_token');
     localStorage.removeItem('tomato_user');
     setUser(null);
+  }, []);
+
+  useEffect(() => {
+    const handleLogout = () => {
+      setUser(null);
+    };
+    window.addEventListener('tomato_logout', handleLogout);
+    return () => window.removeEventListener('tomato_logout', handleLogout);
   }, []);
 
   return (
