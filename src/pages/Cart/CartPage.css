@@ -207,6 +207,29 @@
   .cart-item-right { width: 100%; justify-content: space-between; }
 }
 
+.cart-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-active-indicator {
+  background: rgba(255, 107, 53, 0.05);
+  border: 1px dashed rgba(255, 107, 53, 0.3);
+  color: var(--primary-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  margin-top: 20px;
+  line-height: 1.4;
+}
+
+.checkout-payment-section {
+  margin-top: 8px;
+}
+
 /* Payment method selector */
 .payment-method-container {
   margin-top: 16px;

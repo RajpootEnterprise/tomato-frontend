@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -18,6 +18,7 @@ export default function CartPage({ onLoginRequired }) {
   const [paymentMethod, setPaymentMethod] = useState('stripe'); // 'stripe' | 'cod'
   const [showStripe, setShowStripe] = useState(false);
   const navigate = useNavigate();
+  const paymentRef = useRef(null);
 
   if (!isLoggedIn) {
     return (
@@ -67,6 +68,9 @@ export default function CartPage({ onLoginRequired }) {
     }
     if (paymentMethod === 'stripe') {
       setShowStripe(true);
+      setTimeout(() => {
+        paymentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
       return;
     }
     // COD Flow
@@ -131,53 +135,67 @@ export default function CartPage({ onLoginRequired }) {
 
         {!loading && cartItems.length > 0 && (
           <div className="cart-layout animate-slide-up">
-            {/* Items list */}
-            <div className="cart-items">
-              {cartItems.map((item) => (
-                <div key={item.id} className="cart-item">
-                  <div className="cart-item-info">
-                    <h3 className="cart-item-name">{item.menuItemName}</h3>
-                    <p className="cart-item-price">${item.price?.toFixed(2)} each</p>
-                  </div>
-                  <div className="cart-item-right">
-                    <div className="stepper">
+            {/* Left Column: Items list & Payment form */}
+            <div className="cart-left-section">
+              <div className="cart-items">
+                {cartItems.map((item) => (
+                  <div key={item.id} className="cart-item">
+                    <div className="cart-item-info">
+                      <h3 className="cart-item-name">{item.menuItemName}</h3>
+                      <p className="cart-item-price">${item.price?.toFixed(2)} each</p>
+                    </div>
+                    <div className="cart-item-right">
+                      <div className="stepper">
+                        <button
+                          className="stepper-btn"
+                          onClick={() => handleDecrement(item)}
+                          aria-label="Decrease"
+                          id={`cart-dec-${item.id}`}
+                        >
+                          −
+                        </button>
+                        <span className="stepper-qty">{item.quantity}</span>
+                        <button
+                          className="stepper-btn"
+                          onClick={() => handleIncrement(item)}
+                          aria-label="Increase"
+                          id={`cart-inc-${item.id}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                      <p className="cart-item-subtotal">
+                        ${(item.price * item.quantity)?.toFixed(2)}
+                      </p>
                       <button
-                        className="stepper-btn"
-                        onClick={() => handleDecrement(item)}
-                        aria-label="Decrease"
-                        id={`cart-dec-${item.id}`}
+                        className="remove-btn"
+                        onClick={() => handleRemove(item)}
+                        aria-label={`Remove ${item.menuItemName}`}
                       >
-                        −
-                      </button>
-                      <span className="stepper-qty">{item.quantity}</span>
-                      <button
-                        className="stepper-btn"
-                        onClick={() => handleIncrement(item)}
-                        aria-label="Increase"
-                        id={`cart-inc-${item.id}`}
-                      >
-                        +
+                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+                        </svg>
                       </button>
                     </div>
-                    <p className="cart-item-subtotal">
-                      ${(item.price * item.quantity)?.toFixed(2)}
-                    </p>
-                    <button
-                      className="remove-btn"
-                      onClick={() => handleRemove(item)}
-                      aria-label={`Remove ${item.menuItemName}`}
-                    >
-                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <polyline points="3 6 5 6 21 6"/>
-                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
-                      </svg>
-                    </button>
                   </div>
+                ))}
+              </div>
+
+              {showStripe && (
+                <div ref={paymentRef} className="checkout-payment-section animate-slide-up">
+                  <Elements stripe={stripePromise}>
+                    <StripePaymentForm
+                      amount={cartTotal}
+                      onSuccess={handlePaymentSuccess}
+                      onCancel={() => setShowStripe(false)}
+                    />
+                  </Elements>
                 </div>
-              ))}
+              )}
             </div>
 
-            {/* Summary */}
+            {/* Right Column: Summary */}
             <div className="cart-summary">
               <div className="cart-summary-card">
                 <h2 className="summary-title">Order Summary</h2>
@@ -246,13 +264,9 @@ export default function CartPage({ onLoginRequired }) {
                     )}
                   </button>
                 ) : (
-                  <Elements stripe={stripePromise}>
-                    <StripePaymentForm
-                      amount={cartTotal}
-                      onSuccess={handlePaymentSuccess}
-                      onCancel={() => setShowStripe(false)}
-                    />
-                  </Elements>
+                  <div className="form-active-indicator">
+                    🔒 Fill out card details on the left to pay and place your order.
+                  </div>
                 )}
 
                 <Link to="/menu" className="continue-shopping">
