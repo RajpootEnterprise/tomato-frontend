@@ -18,6 +18,9 @@ export default function Navbar({ onLoginClick }) {
     { label: 'Mobile App', href: '/mobile-app' },
     { label: 'Contact Us', href: '/contact' },
   ];
+  if (isLoggedIn && user?.role === 'ADMIN') {
+    navLinks.push({ label: 'Admin Panel', href: '/admin' });
+  }
 
   const handleLogout = () => {
     logout();
@@ -100,6 +103,17 @@ export default function Navbar({ onLoginClick }) {
                     </div>
                   </div>
                   <div className="profile-divider" />
+                  {user?.role === 'ADMIN' && (
+                    <Link to="/admin" className="profile-item admin-item" onClick={() => setProfileOpen(false)}>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="9" y1="3" x2="9" y2="21" />
+                        <line x1="9" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="15" x2="21" y2="15" />
+                      </svg>
+                      Admin Dashboard
+                    </Link>
+                  )}
                   <Link to="/orders" className="profile-item" onClick={() => setProfileOpen(false)}>
                     <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
