@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Swap between local and production by changing this constant
-export const BASE_URL = 'https://tomato-backend-61g1.onrender.com/api';
+export const BASE_URL = 'https://tomato-backend-61q1.onrender.com/api';
 
 const client = axios.create({
   baseURL: BASE_URL,
