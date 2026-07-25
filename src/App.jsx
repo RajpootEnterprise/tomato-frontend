@@ -12,6 +12,8 @@ import CartPage from './pages/Cart/CartPage';
 import OrdersPage from './pages/Orders/OrdersPage';
 import ContactPage from './pages/Contact/ContactPage';
 import MobileAppPage from './pages/MobileApp/MobileAppPage';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import FloatingCart from './components/FloatingCart/FloatingCart';
 import './index.css';
 import './App.css';
 
@@ -35,9 +37,12 @@ function App() {
               <Route path="/orders" element={<OrdersPage onLoginRequired={openAuth} />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/mobile-app" element={<MobileAppPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               {/* 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+
+            <FloatingCart />
 
             <Footer />
           </div>

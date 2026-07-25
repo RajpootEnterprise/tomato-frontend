@@ -1,0 +1,79 @@
+.floating-cart-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 700;
+  width: 90%;
+  max-width: 520px;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.floating-cart-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 16px 28px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 12px 32px rgba(255, 107, 53, 0.35);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-cart-bar:hover {
+  transform: scale(1.03);
+  box-shadow: 0 16px 40px rgba(255, 107, 53, 0.5);
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+}
+
+.floating-cart-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-icon {
+  font-size: 1.2rem;
+}
+
+.cart-badge-count {
+  font-size: 0.95rem;
+}
+
+.cart-divider {
+  opacity: 0.5;
+  font-weight: 300;
+}
+
+.cart-amount-total {
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.floating-cart-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.cart-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.25s ease;
+}
+
+.floating-cart-bar:hover .cart-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 480px) {
+  .floating-cart-container {
+    bottom: 16px;
+  }
+  .floating-cart-bar {
+    padding: 12px 20px;
+  }
+}

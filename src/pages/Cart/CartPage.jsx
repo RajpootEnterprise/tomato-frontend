@@ -3,13 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { placeOrder } from '../../api/orders';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripePaymentForm from '../../components/StripePaymentForm/StripePaymentForm';
 import toast from 'react-hot-toast';
 import './CartPage.css';
+
+const stripePromise = loadStripe('pk_test_51PqOsgRxVlY5mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By68mX9By');
 
 export default function CartPage({ onLoginRequired }) {
   const { isLoggedIn } = useAuth();
   const { cartItems, cartTotal, loading, updateItem, removeItem, clearCartState, fetchCart } = useCart();
   const [placing, setPlacing] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('stripe'); // 'stripe' | 'cod'
+  const [showStripe, setShowStripe] = useState(false);
   const navigate = useNavigate();
 
   if (!isLoggedIn) {
@@ -58,13 +65,38 @@ export default function CartPage({ onLoginRequired }) {
       toast.error('Your cart is empty!');
       return;
     }
+    if (paymentMethod === 'stripe') {
+      setShowStripe(true);
+      return;
+    }
+    // COD Flow
     setPlacing(true);
     try {
       const res = await placeOrder();
       const body = res.data;
       if (body.success) {
         await fetchCart(); // Refresh (cart will be empty after order)
-        toast.success('🎉 Order placed successfully!');
+        toast.success('🎉 Order placed successfully (COD)!');
+        navigate('/orders');
+      } else {
+        toast.error(body.message);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Failed to place order';
+      toast.error(msg);
+    } finally {
+      setPlacing(false);
+    }
+  };
+
+  const handlePaymentSuccess = async (paymentIntentId) => {
+    setPlacing(true);
+    try {
+      const res = await placeOrder(); // Creates order in MongoDB and empties cart
+      const body = res.data;
+      if (body.success) {
+        await fetchCart();
+        toast.success('🎉 Order placed and paid successfully!');
         navigate('/orders');
       } else {
         toast.error(body.message);
@@ -166,23 +198,63 @@ export default function CartPage({ onLoginRequired }) {
                   <span>Delivery</span>
                   <span className="free-tag">FREE</span>
                 </div>
-                <button
-                  className="btn-primary place-order-btn"
-                  onClick={handlePlaceOrder}
-                  disabled={placing}
-                  id="place-order-btn"
-                >
-                  {placing ? (
-                    <>
-                      <span className="spinner-sm" />
-                      Placing Order…
-                    </>
-                  ) : (
-                    <>
-                      🎉 Place Order · ${cartTotal?.toFixed(2)}
-                    </>
-                  )}
-                </button>
+
+                <div className="payment-method-container">
+                  <span className="payment-method-title">Payment Method</span>
+                  <div className="payment-method-options">
+                    <label className={`payment-option-label ${paymentMethod === 'stripe' ? 'active' : ''}`}>
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="stripe"
+                        checked={paymentMethod === 'stripe'}
+                        onChange={() => { setPaymentMethod('stripe'); setShowStripe(false); }}
+                      />
+                      💳 Card Payment (Stripe)
+                    </label>
+                    <label className={`payment-option-label ${paymentMethod === 'cod' ? 'active' : ''}`}>
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="cod"
+                        checked={paymentMethod === 'cod'}
+                        onChange={() => { setPaymentMethod('cod'); setShowStripe(false); }}
+                      />
+                      💵 Cash on Delivery
+                    </label>
+                  </div>
+                </div>
+
+                {!showStripe ? (
+                  <button
+                    className="btn-primary place-order-btn"
+                    onClick={handlePlaceOrder}
+                    disabled={placing}
+                    id="place-order-btn"
+                  >
+                    {placing ? (
+                      <>
+                        <span className="spinner-sm" />
+                        Placing Order…
+                      </>
+                    ) : (
+                      paymentMethod === 'stripe' ? (
+                        <>💳 Proceed to Pay · ${cartTotal?.toFixed(2)}</>
+                      ) : (
+                        <>🎉 Place COD Order · ${cartTotal?.toFixed(2)}</>
+                      )
+                    )}
+                  </button>
+                ) : (
+                  <Elements stripe={stripePromise}>
+                    <StripePaymentForm
+                      amount={cartTotal}
+                      onSuccess={handlePaymentSuccess}
+                      onCancel={() => setShowStripe(false)}
+                    />
+                  </Elements>
+                )}
+
                 <Link to="/menu" className="continue-shopping">
                   ← Continue Shopping
                 </Link>
