@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { getAdminStats, getAllOrdersAdmin, updateOrderStatusAdmin } from '../../api/orders';
+import DecryptedText from '../../components/DecryptedText/DecryptedText';
+import SpotlightCard from '../../components/SpotlightCard/SpotlightCard';
 import toast from 'react-hot-toast';
 import './AdminDashboard.css';
 
@@ -71,7 +73,9 @@ export default function AdminDashboard() {
       <div className="container animate-slide-up">
         <div className="admin-header">
           <div>
-            <h1 className="admin-title">Shop Manager Dashboard</h1>
+            <h1 className="admin-title">
+              <DecryptedText text="Shop Manager Dashboard" animateOn="view" speed={45} maxIterations={12} />
+            </h1>
             <p className="admin-subtitle">Monitor live orders, revenue metrics, and user status.</p>
           </div>
           <button className="btn-outline refresh-btn" onClick={loadData} disabled={loading}>
@@ -89,32 +93,32 @@ export default function AdminDashboard() {
           <>
             {/* Stats Cards Grid */}
             <div className="stats-grid">
-              <div className="stat-card revenue">
+              <SpotlightCard className="stat-card revenue" spotlightColor="rgba(76, 175, 80, 0.15)">
                 <div className="stat-card-left">
                   <span className="stat-card-emoji">💰</span>
                   <span className="stat-card-label">Total Revenue</span>
                   <h2 className="stat-card-value">${stats.totalRevenue?.toFixed(2)}</h2>
                 </div>
                 <div className="stat-card-glow" />
-              </div>
+              </SpotlightCard>
 
-              <div className="stat-card orders">
+              <SpotlightCard className="stat-card orders" spotlightColor="rgba(255, 107, 53, 0.15)">
                 <div className="stat-card-left">
                   <span className="stat-card-emoji">📋</span>
                   <span className="stat-card-label">Total Orders</span>
                   <h2 className="stat-card-value">{stats.totalOrders}</h2>
                 </div>
                 <div className="stat-card-glow" />
-              </div>
+              </SpotlightCard>
 
-              <div className="stat-card users">
+              <SpotlightCard className="stat-card users" spotlightColor="rgba(33, 150, 243, 0.15)">
                 <div className="stat-card-left">
                   <span className="stat-card-emoji">👥</span>
                   <span className="stat-card-label">Registered Users</span>
                   <h2 className="stat-card-value">{stats.totalUsers}</h2>
                 </div>
                 <div className="stat-card-glow" />
-              </div>
+              </SpotlightCard>
             </div>
 
             {/* Status Breakdown Section */}

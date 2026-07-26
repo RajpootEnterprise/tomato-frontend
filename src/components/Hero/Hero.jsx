@@ -1,4 +1,7 @@
 import { useRef } from 'react';
+import BlurText from '../BlurText/BlurText';
+import Magnet from '../Magnet/Magnet';
+import ShinyText from '../ShinyText/ShinyText';
 import './Hero.css';
 
 export default function Hero({ onExplore }) {
@@ -15,24 +18,28 @@ export default function Hero({ onExplore }) {
         {/* Left: text */}
         <div className="hero-content">
           <div className="hero-tag">
-            <span>🔥</span> Fresh & Delicious
+            <span>🔥</span> <ShinyText text="Fresh & Delicious" color="#ff8c5a" shineColor="#ffffff" speed={2.5} />
           </div>
           <h1 className="hero-title">
-            Order Your <br />
-            <span className="hero-title-highlight">Favourite Food</span><br />
-            Here
+            <BlurText text="Order Your" delay={80} direction="top" animateBy="words" />
+            <span className="hero-title-highlight" style={{ display: 'block', margin: '4px 0' }}>
+              <BlurText text="Favourite Food" delay={180} direction="top" animateBy="words" />
+            </span>
+            <BlurText text="Here" delay={280} direction="top" animateBy="words" />
           </h1>
           <p className="hero-desc">
             Choose from hundreds of delicious meals prepared by top-rated restaurants,
             delivered fast right to your door.
           </p>
           <div className="hero-actions">
-            <button className="btn-primary hero-cta" onClick={onExplore} id="hero-explore-btn">
-              Explore Menu
-              <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
+            <Magnet padding={40} magnetStrength={3}>
+              <button className="btn-primary hero-cta" onClick={onExplore} id="hero-explore-btn">
+                Explore Menu
+                <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </Magnet>
             <div className="hero-stats">
               <div className="stat">
                 <span className="stat-num">1K+</span>

@@ -1,6 +1,8 @@
 .food-card {
   position: relative;
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -12,7 +14,8 @@
 .food-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 40px rgba(255, 107, 53, 0.16);
-  border-color: rgba(255,107,53,0.3);
+  border-color: rgba(255,107,53,0.4);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 /* Image */

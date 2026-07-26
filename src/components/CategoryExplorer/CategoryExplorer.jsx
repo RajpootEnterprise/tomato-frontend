@@ -1,4 +1,5 @@
 import './CategoryExplorer.css';
+import Magnet from '../Magnet/Magnet';
 
 const CATEGORIES = [
   { name: 'Salad',     emoji: '🥗' },
@@ -21,18 +22,19 @@ export default function CategoryExplorer({ selected, onSelect }) {
         </div>
         <div className="category-scroll">
           {CATEGORIES.map((cat) => (
-            <button
-              key={cat.name}
-              className={`category-card ${selected === cat.name ? 'active' : ''}`}
-              onClick={() => onSelect(selected === cat.name ? null : cat.name)}
-              aria-pressed={selected === cat.name}
-              id={`category-${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              <div className="category-icon-wrap">
-                <span className="category-emoji">{cat.emoji}</span>
-              </div>
-              <span className="category-name">{cat.name}</span>
-            </button>
+            <Magnet key={cat.name} padding={20} magnetStrength={3} wrapperClassName="category-magnet-wrapper">
+              <button
+                className={`category-card ${selected === cat.name ? 'active' : ''}`}
+                onClick={() => onSelect(selected === cat.name ? null : cat.name)}
+                aria-pressed={selected === cat.name}
+                id={`category-${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                <div className="category-icon-wrap">
+                  <span className="category-emoji">{cat.emoji}</span>
+                </div>
+                <span className="category-name">{cat.name}</span>
+              </button>
+            </Magnet>
           ))}
         </div>
       </div>

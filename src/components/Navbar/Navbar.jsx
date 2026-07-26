@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import DecryptedText from '../DecryptedText/DecryptedText';
 import './Navbar.css';
 
 export default function Navbar({ onLoginClick }) {
@@ -12,6 +13,10 @@ export default function Navbar({ onLoginClick }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  const [hoveredRect, setHoveredRect] = useState(null);
+  const [activeRect, setActiveRect] = useState(null);
+  const navRef = useRef(null);
+
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Menu', href: '/menu' },
@@ -21,6 +26,35 @@ export default function Navbar({ onLoginClick }) {
   if (isLoggedIn && user?.role === 'ADMIN') {
     navLinks.push({ label: 'Admin Panel', href: '/admin' });
   }
+
+  // Update active pill position when path changes or on mount
+  useEffect(() => {
+    // Wait slightly to ensure styles are calculated correctly
+    const timer = setTimeout(() => {
+      const activeEl = navRef.current?.querySelector('.navbar-link.active');
+      if (activeEl) {
+        setActiveRect({
+          left: activeEl.offsetLeft,
+          width: activeEl.offsetWidth,
+        });
+      } else {
+        setActiveRect(null);
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [location.pathname, navLinks.length]);
+
+  const handleMouseEnterLink = (e) => {
+    const el = e.currentTarget;
+    setHoveredRect({
+      left: el.offsetLeft,
+      width: el.offsetWidth,
+    });
+  };
+
+  const handleMouseLeaveNav = () => {
+    setHoveredRect(null);
+  };
 
   const handleLogout = () => {
     logout();
@@ -34,16 +68,36 @@ export default function Navbar({ onLoginClick }) {
         {/* Logo */}
         <Link to="/" className="navbar-logo">
           <span className="logo-icon">🍅</span>
-          <span className="logo-text">Tomato.</span>
+          <DecryptedText 
+            text="Tomato." 
+            animateOn="hover" 
+            speed={60} 
+            maxIterations={12} 
+            className="logo-text" 
+            characters="TOMATO🍅01"
+            useOriginalCharsOnly={false}
+          />
         </Link>
 
-        {/* Desktop nav links */}
-        <nav className="navbar-links">
+        {/* Desktop nav links with sliding indicators */}
+        <nav className="navbar-links" ref={navRef} onMouseLeave={handleMouseLeaveNav}>
+          {/* Sliding Pill Indicator */}
+          {(hoveredRect || activeRect) && (
+            <div
+              className="nav-sliding-pill"
+              style={{
+                transform: `translateX(${hoveredRect ? hoveredRect.left : activeRect ? activeRect.left : 0}px)`,
+                width: `${hoveredRect ? hoveredRect.width : activeRect ? activeRect.width : 0}px`,
+                opacity: hoveredRect || activeRect ? 1 : 0,
+              }}
+            />
+          )}
           {navLinks.map((link) => (
             <Link
               key={link.href}
               to={link.href}
               className={`navbar-link ${location.pathname === link.href ? 'active' : ''}`}
+              onMouseEnter={handleMouseEnterLink}
             >
               {link.label}
             </Link>
