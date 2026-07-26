@@ -99,3 +99,7 @@
   .category-icon-wrap { width: 72px; height: 72px; }
   .category-emoji { font-size: 1.8rem; }
 }
+
+.category-magnet-wrapper {
+  flex-shrink: 0;
+}

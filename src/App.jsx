@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
@@ -19,6 +19,18 @@ import './App.css';
 
 function App() {
   const [authOpen, setAuthOpen] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
 
   const openAuth = () => setAuthOpen(true);
   const closeAuth = () => setAuthOpen(false);
@@ -28,7 +40,8 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <div className="app-wrapper">
-            <Navbar onLoginClick={openAuth} />
+            <Navbar onLoginClick={openAuth} theme={theme} toggleTheme={toggleTheme} />
+
 
             <Routes>
               <Route path="/" element={<HomePage onLoginRequired={openAuth} />} />

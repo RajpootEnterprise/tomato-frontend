@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getOrders } from '../../api/orders';
 import { useAuth } from '../../context/AuthContext';
+import DecryptedText from '../../components/DecryptedText/DecryptedText';
+import SpotlightCard from '../../components/SpotlightCard/SpotlightCard';
 import './OrdersPage.css';
 
 const STATUS_COLORS = {
@@ -57,7 +59,9 @@ export default function OrdersPage({ onLoginRequired }) {
   return (
     <main className="orders-page">
       <div className="container">
-        <h1 className="orders-title">My Orders</h1>
+        <h1 className="orders-title">
+          <DecryptedText text="My Orders" animateOn="view" speed={50} maxIterations={12} />
+        </h1>
 
         {loading && (
           <div className="orders-loading">
@@ -86,7 +90,7 @@ export default function OrdersPage({ onLoginRequired }) {
             {orders.map((order) => {
               const style = STATUS_COLORS[order.status] ?? STATUS_COLORS.PLACED;
               return (
-                <article key={order.id} className="order-card">
+                <SpotlightCard key={order.id} className="order-card" spotlightColor="rgba(255, 107, 53, 0.15)">
                   <div className="order-card-header">
                     <div>
                       <p className="order-id">Order #{order.id?.slice(-8)?.toUpperCase()}</p>
@@ -122,7 +126,7 @@ export default function OrdersPage({ onLoginRequired }) {
                       ${order.totalAmount?.toFixed(2)}
                     </span>
                   </div>
-                </article>
+                </SpotlightCard>
               );
             })}
           </div>

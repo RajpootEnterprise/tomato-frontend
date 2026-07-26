@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Hero from '../../components/Hero/Hero';
 import CategoryExplorer from '../../components/CategoryExplorer/CategoryExplorer';
 import FoodCard from '../../components/FoodCard/FoodCard';
+import ChefGallery from '../../components/ChefGallery/ChefGallery';
 import { getMenu } from '../../api/menu';
 import './HomePage.css';
 
@@ -135,6 +136,8 @@ export default function HomePage({ onLoginRequired }) {
           )}
         </div>
       </section>
+
+      <ChefGallery />
     </main>
   );
 }

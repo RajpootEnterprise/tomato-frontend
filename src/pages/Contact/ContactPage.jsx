@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { sendContact } from '../../api/contact';
 import toast from 'react-hot-toast';
+import SpotlightCard from '../../components/SpotlightCard/SpotlightCard';
+import DecryptedText from '../../components/DecryptedText/DecryptedText';
 import './ContactPage.css';
 
 export default function ContactPage() {
@@ -36,7 +38,9 @@ export default function ContactPage() {
       {/* Header */}
       <div className="contact-header">
         <div className="container">
-          <h1 className="contact-title">Get in Touch</h1>
+          <h1 className="contact-title">
+            <DecryptedText text="Get in Touch" animateOn="view" speed={55} maxIterations={12} />
+          </h1>
           <p className="contact-sub">We'd love to hear from you. Drop us a message!</p>
         </div>
       </div>
@@ -44,26 +48,26 @@ export default function ContactPage() {
       <div className="container contact-body">
         {/* Info cards */}
         <div className="contact-info">
-          <div className="info-card">
+          <SpotlightCard className="info-card" spotlightColor="rgba(255, 107, 53, 0.15)">
             <div className="info-icon">📞</div>
             <h3>Phone</h3>
             <p>+1 (555) 000-1234</p>
-          </div>
-          <div className="info-card">
+          </SpotlightCard>
+          <SpotlightCard className="info-card" spotlightColor="rgba(255, 107, 53, 0.15)">
             <div className="info-icon">✉️</div>
             <h3>Email</h3>
             <p>contact@tomato.food</p>
-          </div>
-          <div className="info-card">
+          </SpotlightCard>
+          <SpotlightCard className="info-card" spotlightColor="rgba(255, 107, 53, 0.15)">
             <div className="info-icon">📍</div>
             <h3>Address</h3>
             <p>New York, NY 10001</p>
-          </div>
-          <div className="info-card">
+          </SpotlightCard>
+          <SpotlightCard className="info-card" spotlightColor="rgba(255, 107, 53, 0.15)">
             <div className="info-icon">🕑</div>
             <h3>Hours</h3>
             <p>Mon–Sun: 9am – 11pm</p>
-          </div>
+          </SpotlightCard>
         </div>
 
         {/* Form */}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import toast from 'react-hot-toast';
+import SpotlightCard from '../SpotlightCard/SpotlightCard';
 import './FoodCard.css';
 
 function StarRating({ rating = 0 }) {
@@ -61,9 +62,10 @@ export default function FoodCard({ item, onLoginRequired, index = 0 }) {
   };
 
   return (
-    <article 
+    <SpotlightCard 
       className="food-card animate-slide-up"
       style={{ animationDelay: `${(index % 12) * 0.06}s` }}
+      spotlightColor="rgba(255, 107, 53, 0.15)"
     >
       {/* Image */}
       <div className="food-card-img-wrap">
@@ -125,6 +127,6 @@ export default function FoodCard({ item, onLoginRequired, index = 0 }) {
         <p className="food-desc">{item.description}</p>
         <p className="food-price">${item.price?.toFixed(2)}</p>
       </div>
-    </article>
+    </SpotlightCard>
   );
 }
